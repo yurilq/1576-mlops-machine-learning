@@ -8,8 +8,8 @@ colunas = ['tamanho','ano','garagem']
 modelo = pickle.load(open('modelo.sav','rb'))
 
 app = Flask(__name__)
-app.config['BASIC_AUTH_USERNAME'] = 'julio'
-app.config['BASIC_AUTH_PASSWORD'] = 'alura'
+app.config['BASIC_AUTH_USERNAME'] = 'teste'
+app.config['BASIC_AUTH_PASSWORD'] = 'teste'
 
 basic_auth = BasicAuth(app)
 
@@ -25,7 +25,8 @@ def sentimento(frase):
     polaridade = tb_en.sentiment.polarity
     return "polaridade: {}".format(polaridade)
 
-@app.route('/cotacao/', methods=['POST'])
+#@app.route('/cotacao/', methods=['POST'])
+@app.route('/cotacao/<tamanho>/<ano>/<garagem>')#
 @basic_auth.required
 def cotacao():
     dados = request.get_json()
@@ -33,4 +34,5 @@ def cotacao():
     preco = modelo.predict([dados_input])
     return jsonify(preco=preco[0])
 
-app.run(debug=True)
+#app.run(debug=True)
+app.run(debug=True, host='0,0,0,0')
